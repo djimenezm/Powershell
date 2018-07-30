@@ -1,0 +1,7 @@
+Get-AppxPackage -AllUsers | where-object {$_.name -notlike "*store*" -And $_.name -notlike "*calc*" -And $_.displayname -notlike "*photos*"} | Remove-AppxPackage
+
+Get-appxprovisionedpackage -online | select displayname
+
+Get-appxprovisionedpackage -online | where-object {$_.displayname -notlike "*store*" -And $_.displayname -notlike "*calc*" -And $_.displayname -notlike "*photos*"} | Remove-AppxProvisionedPackage -online 
+
+Get-appxprovisionedpackage -online | select displayname
