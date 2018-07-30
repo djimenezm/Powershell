@@ -1,0 +1,42 @@
+#Array direcciones URL
+[array]$URL = Get-Content -Path \\URL.txt
+$URL.GetType() 
+#$URL.Count --> Saber cuantas direcciones tiene el fichero TXT
+
+#Barra de progreso
+$counter = 0
+
+#Array instaladores
+[array]$URL_app = Get-Content -Path \\URL_app.txt
+$URL_app.GetType()
+#$URL_app.Count --> Saber cuantas direcciones tiene el fichero TXT
+
+#Navegador IE con pestañas
+$navOpenInBackgroundTab = 0x1000
+$ieObject = New-Object -ComObject 'InternetExplorer.Application'
+$ieObject.Visible = $true
+
+#Función URLs navegador IE
+function ieObject {
+    param($url_para_abrir)
+    return $ieObject.Navigate($url_para_abrir, $navOpenInBackgroundTab)
+    
+}
+
+#Función URLs_app instaladores
+function ieObject_app {
+    param($url_de_webapp)
+    return $ieObject.Navigate($url_de_webapp)
+}
+
+#Bucle para web's
+foreach ($Web in $URL){
+    ieObject -url_para_abrir $Web
+    $counter++
+    Write-Progress -Activity 'Abriendo URLs' -CurrentOperation $web -PercentComplete (($counter / $URL.Count) *100)
+}
+
+#Bucle_app para instaladores
+foreach ($Web_app in $URL_app){
+    ieObject_app -url_de_webapp $Web_app
+}
